@@ -3,11 +3,14 @@ package demo
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/go-redis/redis/v8"
 )
 
 // Config represents the configuration for the handler.
 type Config struct {
-	Name string
+	Redis *redis.Client
+	Key   string
 }
 
 // Handler just serves HTTP requests.
@@ -22,5 +25,11 @@ func New(c Config) *Handler {
 
 // ServeHTTP implements the http.Handler interface.
 func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "serving %s\n", h.config.Name)
+	pong, err := h.config.Redis.Get(r.Context(), h.config.Key).Result()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, "serving %s\n", pong)
 }

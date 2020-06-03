@@ -1,13 +1,24 @@
 package demo
 
 import (
+	"context"
+	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http/httptest"
+	"os"
 	"testing"
+
+	"github.com/go-redis/redis/v8"
 )
 
 func TestHandleRequest(t *testing.T) {
-	h := New(Config{Name: "just-a-test"})
+	testKey := "demo:test-key"
+	testVal := randomString()
+	r, cleanup := createRedis(t, testKey)
+	defer cleanup()
+	r.Set(context.TODO(), testKey, testVal, 0)
+	h := New(Config{Key: testKey, Redis: r})
 	srv := httptest.NewServer(h)
 	defer srv.Close()
 
@@ -21,7 +32,38 @@ func TestHandleRequest(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer res.Body.Close()
-	if string(body) != "serving just-a-test\n" {
-		t.Fatalf("response got %s", body)
+	want := fmt.Sprintf("serving %s\n", testVal)
+	if string(body) != want {
+		t.Fatalf("response got %s, want %s", body, want)
 	}
+}
+
+func createRedis(t *testing.T, key string) (*redis.Client, func()) {
+	opts, err := redis.ParseURL(redisURL())
+	if err != nil {
+		t.Fatal(err)
+	}
+	rdb := redis.NewClient(opts)
+	return rdb, func() {
+		err := rdb.Del(context.TODO(), key).Err()
+		if err != nil {
+			t.Errorf("failed to delete key: %s", err)
+		}
+	}
+}
+
+func redisURL() string {
+	if u := os.Getenv("TEST_REDIS_URL"); u != "" {
+		return u
+	}
+	return "redis://localhost:6379/9"
+}
+
+func randomString() string {
+	charset := "abcdefghijklmnopqrstuvwyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	b := make([]byte, 10)
+	for i := range b {
+		b[i] = charset[rand.Intn(len(charset))]
+	}
+	return fmt.Sprintf("%s", b)
 }

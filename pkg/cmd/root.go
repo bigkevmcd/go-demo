@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/go-redis/redis/v8"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
@@ -26,7 +27,13 @@ func makeRootCmd() *cobra.Command {
 		Use:   "go-demo",
 		Short: "Just a demo for GitOps",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			h := demo.New(demo.Config{Name: viper.GetString("name")})
+			opts, err := redis.ParseURL(viper.GetString("redis_url"))
+			if err != nil {
+				return err
+			}
+			rdb := redis.NewClient(opts)
+
+			h := demo.New(demo.Config{Redis: rdb, Key: viper.GetString("redis_key")})
 			addr := fmt.Sprintf(":%d", viper.GetInt("port"))
 			log.Printf("listening on %s\n", addr)
 			return http.ListenAndServe(addr, h)
@@ -40,11 +47,18 @@ func makeRootCmd() *cobra.Command {
 	logIfError(viper.BindPFlag("port", cmd.Flags().Lookup("port")))
 
 	cmd.Flags().String(
-		"name",
-		"default",
-		"name to serve responses with",
+		"redis_url",
+		"redis://localhost:6379",
+		"url to connect to Redis on",
 	)
-	logIfError(viper.BindPFlag("name", cmd.Flags().Lookup("name")))
+	logIfError(viper.BindPFlag("redis_url", cmd.Flags().Lookup("redis_url")))
+
+	cmd.Flags().String(
+		"redis_key",
+		"demo:value",
+		"key to fetch from Redis",
+	)
+	logIfError(viper.BindPFlag("redis_key", cmd.Flags().Lookup("redis_key")))
 	return cmd
 }
 
