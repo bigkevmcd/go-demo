@@ -34,6 +34,7 @@ func makeRootCmd() *cobra.Command {
 			rdb := redis.NewClient(opts)
 
 			h := demo.New(demo.Config{Redis: rdb, Key: viper.GetString("redis_key")})
+
 			addr := fmt.Sprintf(":%d", viper.GetInt("port"))
 			log.Printf("listening on %s, connecting to Redis %s\n", addr, opts.Addr)
 			return http.ListenAndServe(addr, h)

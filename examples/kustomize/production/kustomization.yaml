@@ -1,6 +1,6 @@
 bases:
 - ../base
-namePrefix: production-
+namespace: production
 images:
 - name:  bigkevmcd/go-demo
   newTag: production

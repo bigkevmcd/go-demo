@@ -1,6 +1,6 @@
 bases:
 - ../base
-namePrefix: staging-
+namespace: staging
 images:
 - name:  bigkevmcd/go-demo
   newTag: staging
