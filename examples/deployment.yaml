@@ -18,10 +18,6 @@ spec:
       containers:
       - name: http
         image: bigkevmcd/go-demo:latest
-        resources:
-          requests:
-            cpu: 100m
-            memory: 100Mi
         ports:
         - containerPort: 8080
         env:

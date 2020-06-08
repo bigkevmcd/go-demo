@@ -27,7 +27,7 @@ func New(c Config) *Handler {
 func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	pong, err := h.config.Redis.Get(r.Context(), h.config.Key).Result()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("failed to get %s: %s", h.config.Key, err), http.StatusInternalServerError)
 		return
 	}
 
