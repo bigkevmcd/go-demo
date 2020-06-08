@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: go-demo-http
+  labels:
+    app.kubernetes.io/name: go-demo
 spec:
   selector:
     matchLabels:
