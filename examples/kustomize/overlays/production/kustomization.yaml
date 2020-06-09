@@ -1,0 +1,13 @@
+bases:
+- ../../base
+namespace: production
+images:
+- name:  bigkevmcd/go-demo
+  newTag: production
+patchesJson6902:
+- target:
+    group: apps
+    version: v1
+    kind: Deployment
+    name: go-demo-http
+  path: go_demo_patch.yaml

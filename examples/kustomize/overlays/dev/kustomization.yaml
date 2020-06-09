@@ -1,5 +1,5 @@
 bases:
-- ../base
+- ../../base
 namespace: dev
 images:
 - name:  bigkevmcd/go-demo
