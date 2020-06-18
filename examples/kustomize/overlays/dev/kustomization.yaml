@@ -3,4 +3,4 @@ bases:
 namespace: dev
 images:
 - name:  docker.io/bigkevmcd/go-demo
-  newTag: "876ecb3"
+  newTag: latest
