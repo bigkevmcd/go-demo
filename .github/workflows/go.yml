@@ -6,8 +6,10 @@ on:
   pull_request:
     branches: [ master ]
 
-jobs:
+env:
+  CI_PROJECT_DIR: "testing"
 
+jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
