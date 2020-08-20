@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: http
-        image: docker.io/bigkevmcd/go-demo:876ecb3
+        image: bigkevmcd/go-demo:876ecb3
         ports:
         - containerPort: 8080
         envFrom:
