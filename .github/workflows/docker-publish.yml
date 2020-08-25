@@ -19,3 +19,4 @@ jobs:
           repository: bigkevmcd/go-demo
           tag_with_ref: true
           push: ${{ startsWith(github.ref, 'refs/tags/') }}
+          add_git_labels: true
