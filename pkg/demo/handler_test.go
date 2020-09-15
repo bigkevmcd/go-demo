@@ -13,7 +13,7 @@ import (
 )
 
 func TestHandleRequest(t *testing.T) {
-	if os.Getenv("CI_PROJECT_DIR") != "" {
+	if os.Getenv("CI_PROJECT_DIR") == "" {
 		t.Skip("no access to Redis")
 	}
 	testKey := "demo:test-key"
