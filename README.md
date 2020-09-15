@@ -19,3 +19,5 @@ TEST_REDIS_URL=redis://localhost:6379  go test ./...
 ```
 
 If `TEST_REDIS_URL` is _not set_ this will default to `redis://localhost:6379/9`.
+
+# Failing tests
