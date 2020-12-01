@@ -5,3 +5,6 @@ test:
     file: value
 another:
   value: tested
+yetanother:
+  test:
+    value: testing
