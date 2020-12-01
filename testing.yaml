@@ -3,3 +3,5 @@ test:
     value: testing
   testing:
     file: value
+another:
+  value: tested
