@@ -8,3 +8,5 @@ another:
 yetanother:
   test:
     value: testing
+andmore:
+  value: nothing
