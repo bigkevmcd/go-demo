@@ -13,8 +13,8 @@ import (
 )
 
 func TestHandleRequest(t *testing.T) {
-	if os.Getenv("CI_PROJECT_DIR") != "" {
-		t.Skip("no access to Redis")
+	if redisURL() == "" {
+		t.Skip()
 	}
 	testKey := "demo:test-key"
 	testVal := randomString()
@@ -59,7 +59,7 @@ func redisURL() string {
 	if u := os.Getenv("TEST_REDIS_URL"); u != "" {
 		return u
 	}
-	return "redis://localhost:6379/9"
+	return ""
 }
 
 func randomString() string {
