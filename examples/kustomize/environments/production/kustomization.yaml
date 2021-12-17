@@ -4,7 +4,7 @@ resources:
 namespace: production
 images:
 - name:  bigkevmcd/go-demo
-  newTag: production
+  newTag: 20211007085415
 patchesJson6902:
 - target:
     group: apps
