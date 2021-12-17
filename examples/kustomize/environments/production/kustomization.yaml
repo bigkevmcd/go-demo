@@ -1,5 +1,6 @@
 resources:
 - ../../base
+- namespace.yaml
 namespace: production
 images:
 - name:  bigkevmcd/go-demo
