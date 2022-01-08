@@ -1,13 +1,13 @@
-namespace: dev
-images:
-- name: bigkevmcd/go-demo
-  newTag: v0.0.3
-resources:
-- ../../base
-- namespace.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 labels:
 - includeSelectors: true
   pairs:
     gitops.pro/pipeline-environment: dev
+namespace: dev
+resources:
+- ../../base
+- namespace.yaml
+images:
+- name: bigkevmcd/go-demo
+  newTag: v0.0.3
