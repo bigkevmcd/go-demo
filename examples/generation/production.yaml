@@ -1,2 +1,2 @@
-environment: production
-instances: 10
+env: production
+team: production-team

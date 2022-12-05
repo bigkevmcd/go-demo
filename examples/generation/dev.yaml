@@ -1,2 +1,2 @@
-environment: dev
-instances: 2
+env: dev
+team: dev-team

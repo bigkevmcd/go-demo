@@ -1,2 +1,2 @@
-environment: staging
-instances: 5
+env: staging
+team: staging-team
