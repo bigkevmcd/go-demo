@@ -18,8 +18,7 @@ func TestHandleRequest(t *testing.T) {
 	}
 	testKey := "demo:test-key"
 	testVal := randomString()
-	r, cleanup := createRedis(t, testKey)
-	defer cleanup()
+	r := createRedis(t, testKey)
 	r.Set(context.TODO(), testKey, testVal, 0)
 	h := New(Config{Key: testKey, Redis: r})
 	srv := httptest.NewServer(h)
@@ -41,18 +40,22 @@ func TestHandleRequest(t *testing.T) {
 	}
 }
 
-func createRedis(t *testing.T, key string) (*redis.Client, func()) {
+func createRedis(t *testing.T, key string) *redis.Client {
 	opts, err := redis.ParseURL(redisURL())
 	if err != nil {
 		t.Fatal(err)
 	}
 	rdb := redis.NewClient(opts)
-	return rdb, func() {
+
+	t.Cleanup(func() {
 		err := rdb.Del(context.TODO(), key).Err()
 		if err != nil {
 			t.Errorf("failed to delete key: %s", err)
 		}
-	}
+
+	})
+
+	return rdb
 }
 
 func redisURL() string {
