@@ -1,0 +1,17 @@
+containers: {
+  app: {
+    build: "."
+    dependsOn: [
+      "redis",
+    ]
+    env: {
+      "REDIS_URL": "redis://redis:6379"
+    }
+    ports: publish: "8080/http"
+  }
+
+  redis: {
+    image: "redis:alpine"
+    ports: "6379/tcp"
+  }
+}

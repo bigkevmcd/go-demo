@@ -16,12 +16,6 @@ func init() {
 	cobra.OnInitialize(initConfig)
 }
 
-func logIfError(e error) {
-	if e != nil {
-		log.Fatal(e)
-	}
-}
-
 func makeRootCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "go-demo",
@@ -45,21 +39,21 @@ func makeRootCmd() *cobra.Command {
 		8080,
 		"port to serve requests on",
 	)
-	logIfError(viper.BindPFlag("port", cmd.Flags().Lookup("port")))
+	cobra.CheckErr(viper.BindPFlag("port", cmd.Flags().Lookup("port")))
 
 	cmd.Flags().String(
 		"redis_url",
 		"redis://localhost:6379",
 		"url to connect to Redis on",
 	)
-	logIfError(viper.BindPFlag("redis_url", cmd.Flags().Lookup("redis_url")))
+	cobra.CheckErr(viper.BindPFlag("redis_url", cmd.Flags().Lookup("redis_url")))
 
 	cmd.Flags().String(
 		"redis_key",
 		"demo:value",
 		"key to fetch from Redis",
 	)
-	logIfError(viper.BindPFlag("redis_key", cmd.Flags().Lookup("redis_key")))
+	cobra.CheckErr(viper.BindPFlag("redis_key", cmd.Flags().Lookup("redis_key")))
 	return cmd
 }
 
