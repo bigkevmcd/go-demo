@@ -22,15 +22,15 @@ func makeRootCmd() *cobra.Command {
 		Short: "Just a demo for GitOps",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			opts, err := redis.ParseURL(viper.GetString("redis_url"))
-			if err != nil {
-				return err
-			}
+			cobra.CheckErr(err)
+
 			rdb := redis.NewClient(opts)
 
 			h := demo.New(demo.Config{Redis: rdb, Key: viper.GetString("redis_key")})
 
 			addr := fmt.Sprintf(":%d", viper.GetInt("port"))
 			log.Printf("listening on %s, connecting to Redis %s\n", addr, opts.Addr)
+
 			return http.ListenAndServe(addr, h)
 		},
 	}
@@ -54,6 +54,7 @@ func makeRootCmd() *cobra.Command {
 		"key to fetch from Redis",
 	)
 	cobra.CheckErr(viper.BindPFlag("redis_key", cmd.Flags().Lookup("redis_key")))
+
 	return cmd
 }
 
@@ -63,7 +64,5 @@ func initConfig() {
 
 // Execute is the main entry point into this component.
 func Execute() {
-	if err := makeRootCmd().Execute(); err != nil {
-		log.Fatal(err)
-	}
+	cobra.CheckErr(makeRootCmd().Execute())
 }
