@@ -1,7 +1,7 @@
 namespace: dev
 images:
 - name:  bigkevmcd/go-demo
-  newTag: v0.0.3
+  newTag: d2d8a40
 resources:
 - ../../base
 - namespace.yaml
