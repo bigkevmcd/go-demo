@@ -2,6 +2,8 @@
 
 This is a simple demo service for a Kubernetes pipeline.
 
+This is used purely for test purposes.
+
 # Requirements
 
 This requires a configured Redis server.
