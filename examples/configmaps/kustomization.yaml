@@ -1,0 +1,13 @@
+namespace: dev
+images:
+- name:  bigkevmcd/go-demo
+  newTag: v0.0.3
+resources:
+- ../kustomization/base
+- namespace.yaml
+commonLabels:
+  gitops.pro/pipeline-environment: dev
+configMapGenerator:
+- name: demo-configmap
+  files:
+  - application.properties
