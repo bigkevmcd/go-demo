@@ -3,7 +3,7 @@ images:
 - name:  bigkevmcd/go-demo
   newTag: v0.0.3
 resources:
-- ../kustomization/base
+- ../kustomize/base
 - namespace.yaml
 commonLabels:
   gitops.pro/pipeline-environment: dev
