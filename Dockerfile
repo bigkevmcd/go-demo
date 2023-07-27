@@ -1,7 +1,11 @@
+ARG TARGETOS
+ARG TARGETARCH
+ARG VERSION
+
 FROM golang:latest AS build
 WORKDIR /go/src
 COPY . /go/src
-RUN go build ./cmd/go-demo
+RUN CGO_ENABLED=0 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} go build ./cmd/go-demo
 
 FROM gcr.io/distroless/base-debian11
 WORKDIR /root/
