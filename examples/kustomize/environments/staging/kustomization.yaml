@@ -1,9 +1,13 @@
-bases:
-- ../../base
-- namespace.yaml
 namespace: staging
 images:
-- name:  bigkevmcd/go-demo
+- name: bigkevmcd/go-demo
   newTag: demo
-commonLabels:
-  gitops.pro/pipeline-environment: staging
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../base
+- namespace.yaml
+labels:
+- includeSelectors: true
+  pairs:
+    gitops.pro/pipeline-environment: staging
