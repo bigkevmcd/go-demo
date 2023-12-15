@@ -4,7 +4,7 @@ resources:
 namespace: production
 images:
 - name: bigkevmcd/go-demo
-  newTag: "20211007085415"
+  newTag: v1.2.1
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 patches:
